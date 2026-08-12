@@ -1,4 +1,7 @@
-export const AXIOM = {
-  valid: false,
-  reason: null
+export const AXIOM_THIRD = {
+  id: "1/3",
+  value: 1/3,
+  rule: "Jede Achse trägt nur ein Drittel.",
+  effect: "System bleibt stabil.",
+  valid: true
 };
