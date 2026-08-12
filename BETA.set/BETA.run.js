@@ -1,1 +1,33 @@
+import { BETA_gamma } from "./BETA.gamma.js";
+import { BETA_profile } from "./BETA.profile.js";
+
+export const BETA_run = {
+  id: "BETA.run",
+  mode: "execute",
+  status: "active",
+
+  run(alpha) {
+    // ALPHA normieren
+    const normalized = BETA_profile.normalize(alpha);
+
+    // Prüf-Logik ausführen
+    const check = BETA_gamma.check(normalized);
+
+    // Ergebnis zurückgeben
+    return {
+      id: "BETA.run.result",
+      from: "BETA.gamma",
+      code: check.code,
+      tech: check.tech,
+      vec: check.vec,
+      tmp: check.tmp,
+      rotation: check.rotation,
+      load: check.load,
+      output: check.output,
+      degree: check.degree,
+      percent: check.percent,
+      ready: check.ready
+    };
+  }
+};
 
