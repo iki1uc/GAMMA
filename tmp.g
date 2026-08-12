@@ -1,7 +1,4 @@
-{
-  "id": "G",
-  "type": "dock",
-  "axis": 3,
-  "value": "ghost"
-}
-
+export const AXIOM = {
+  valid: false,
+  reason: null
+};
