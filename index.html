@@ -1,44 +1,57 @@
-<script type="module">
-  import { BETA_profile } from "./BETA.set/BETA.profile.js";
-  import { BETA_gamma } from "./BETA.set/BETA.gamma.js";
-  import { BETA_run } from "./BETA.set/BETA.run.js";
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GAMMA – Economie Verwaltung</title>
+  <script type="module">
+    import { GAMMA_run } from "./GAMMA/GAMMA.run.js";
 
-  // ALPHA laden
-  import alpha from "./tmp.vec.Übergabe"; // oder dein ALPHA-Objekt
+    const alpha = {
+      degree: "360°",
+      percent: "100%",
+      vec: "VEC-X",
+      tmp: "TMP-A",
+      tech: true,
+      rotation: "FULL",
+      load: true,
+      output: true
+    };
 
-  // Schritt 1: ALPHA normieren
-  const normalized = BETA_profile.normalize(alpha);
+    const result = GAMMA_run.run(alpha);
 
-  // Schritt 2: ALPHA prüfen
-  const check = BETA_gamma.check(normalized);
+    document.getElementById("vector").innerText = result.all.ANKER.vector;
+    document.getElementById("degree").innerText = result.all.ANKER.degree;
+    document.getElementById("percent").innerText = result.all.ANKER.percent;
+    document.getElementById("ready").innerText = result.all.ANKER.ready;
 
-  // Schritt 3: Prüfung ausführen
-  const result = BETA_run.run(alpha);
+    document.getElementById("fit_alpha").innerText = result.all.FIT.alpha_fit;
+    document.getElementById("fit_beta").innerText = result.all.FIT.beta_fit;
+    document.getElementById("fit_gamma").innerText = result.all.FIT.gamma_fit;
 
-  // Schritt 4: Ausgabe ins HTML
-  document.getElementById("alpha-degree").innerText = result.degree;
-  document.getElementById("alpha-percent").innerText = result.percent;
-  document.getElementById("alpha-ready").innerText = result.ready;
-  document.getElementById("alpha-code").innerText = result.code;
-  document.getElementById("alpha-tech").innerText = result.tech;
-  document.getElementById("alpha-vec").innerText = result.vec;
-  document.getElementById("alpha-tmp").innerText = result.tmp;
-  document.getElementById("alpha-load").innerText = result.load;
-  document.getElementById("alpha-output").innerText = result.output;
-  document.getElementById("alpha-rotation").innerText = result.rotation;
-</script>
+    document.getElementById("help_alpha").innerText = result.all.HELP.alpha_missing;
+    document.getElementById("help_beta").innerText = result.all.HELP.beta_missing;
+    document.getElementById("help_gamma").innerText = result.all.HELP.gamma_missing;
+  </script>
+</head>
 
 <body>
-  <h1>GAMMA – ALPHA Diagnose</h1>
+  <h1>GAMMA – Economie Verwaltung</h1>
 
-  <p>Degree: <span id="alpha-degree"></span></p>
-  <p>Percent: <span id="alpha-percent"></span></p>
-  <p>Ready: <span id="alpha-ready"></span></p>
-  <p>Code: <span id="alpha-code"></span></p>
-  <p>Tech: <span id="alpha-tech"></span></p>
-  <p>Vec: <span id="alpha-vec"></span></p>
-  <p>Tmp: <span id="alpha-tmp"></span></p>
-  <p>Load: <span id="alpha-load"></span></p>
-  <p>Output: <span id="alpha-output"></span></p>
-  <p>Rotation: <span id="alpha-rotation"></span></p>
+  <h2>Vektor</h2>
+  <p>V3: <span id="vector"></span></p>
+
+  <h2>Status</h2>
+  <p>Degree: <span id="degree"></span></p>
+  <p>Percent: <span id="percent"></span></p>
+  <p>Ready: <span id="ready"></span></p>
+
+  <h2>Fit</h2>
+  <p>Alpha-Fit: <span id="fit_alpha"></span></p>
+  <p>Beta-Fit: <span id="fit_beta"></span></p>
+  <p>Gamma-Fit: <span id="fit_gamma"></span></p>
+
+  <h2>Help</h2>
+  <p>Alpha: <span id="help_alpha"></span></p>
+  <p>Beta: <span id="help_beta"></span></p>
+  <p>Gamma: <span id="help_gamma"></span></p>
 </body>
+</html>
