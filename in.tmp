@@ -1,2 +1,4 @@
-{ "vector": "-Z", "dir": "in", "dim": 6 }
-
+export const IN = {
+  alpha_raw: null,
+  alpha_norm: null
+};
