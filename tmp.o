@@ -1,4 +1,6 @@
-export const AXIOM = {
+export const AXIOM_O = {
+  id: "O",
+  formula: "V = 4/3 * π * r^3",
   valid: false,
   reason: null
 };
