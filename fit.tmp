@@ -1,2 +1,5 @@
-{ "fit": true, "level": "optimize", "mode": "auto" }
-
+export const FIT = {
+  alpha_fit: 0,
+  beta_fit: 0,
+  gamma_fit: 0
+};
