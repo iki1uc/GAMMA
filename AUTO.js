@@ -1,25 +1,24 @@
-// AUTO.js
-
 import { LOAD_PIPE } from "./LOAD/LOAD_PIPE.js";
 import { SAVE_PIPE } from "./SAVE/SAVE_PIPE.js";
+import { AXIOM_THIRD } from "./tmp.a";
 
 export async function AUTO(room = "ANKER"){
 
-  // 1 — LOAD
   const loaded = await LOAD_PIPE(room);
 
-  // 2 — RESPO (Bewertung)
   const respo = {
     axis: (loaded.data.axis || 0) % 756,
     tick: (loaded.data.tick || 0) + 1,
+
+    // 1/3-Prinzip
     orbit: ((loaded.data.tick || 0) % 3),
+    third: AXIOM_THIRD.value,
+
     pulse: Math.random() > 0.5 ? "good" : "neutral"
   };
 
-  // 3 — SAVE
   SAVE_PIPE(room, respo);
 
-  // 4 — NEXT ROOM
   const nextRoom = ["GA","meKI","MIE"][respo.orbit];
 
   return { room: nextRoom, respo };
