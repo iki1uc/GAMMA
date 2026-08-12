@@ -69,3 +69,12 @@ export const GAMMA_run = {
       mass_beta: beta.code === "OK" ? 1 : 0,
       mass_rotation: alpha.rotation === "FULL" ? 1 : 0,
 
+run_full(alpha) {
+  const base = this.run(alpha);        // deine alte Formel-Version
+  const all = ALLXALL.connect(alpha);  // neue Verbindungsschicht
+
+  return {
+    ...base,
+    all
+  };
+}
