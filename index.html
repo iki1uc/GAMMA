@@ -1,4 +1,44 @@
 <script type="module">
-  import { LOAD_START } from "./LOAD_START.js";
-  LOAD_START("ANKER");
+  import { BETA_profile } from "./BETA.set/BETA.profile.js";
+  import { BETA_gamma } from "./BETA.set/BETA.gamma.js";
+  import { BETA_run } from "./BETA.set/BETA.run.js";
+
+  // ALPHA laden
+  import alpha from "./tmp.vec.Übergabe"; // oder dein ALPHA-Objekt
+
+  // Schritt 1: ALPHA normieren
+  const normalized = BETA_profile.normalize(alpha);
+
+  // Schritt 2: ALPHA prüfen
+  const check = BETA_gamma.check(normalized);
+
+  // Schritt 3: Prüfung ausführen
+  const result = BETA_run.run(alpha);
+
+  // Schritt 4: Ausgabe ins HTML
+  document.getElementById("alpha-degree").innerText = result.degree;
+  document.getElementById("alpha-percent").innerText = result.percent;
+  document.getElementById("alpha-ready").innerText = result.ready;
+  document.getElementById("alpha-code").innerText = result.code;
+  document.getElementById("alpha-tech").innerText = result.tech;
+  document.getElementById("alpha-vec").innerText = result.vec;
+  document.getElementById("alpha-tmp").innerText = result.tmp;
+  document.getElementById("alpha-load").innerText = result.load;
+  document.getElementById("alpha-output").innerText = result.output;
+  document.getElementById("alpha-rotation").innerText = result.rotation;
 </script>
+
+<body>
+  <h1>GAMMA – ALPHA Diagnose</h1>
+
+  <p>Degree: <span id="alpha-degree"></span></p>
+  <p>Percent: <span id="alpha-percent"></span></p>
+  <p>Ready: <span id="alpha-ready"></span></p>
+  <p>Code: <span id="alpha-code"></span></p>
+  <p>Tech: <span id="alpha-tech"></span></p>
+  <p>Vec: <span id="alpha-vec"></span></p>
+  <p>Tmp: <span id="alpha-tmp"></span></p>
+  <p>Load: <span id="alpha-load"></span></p>
+  <p>Output: <span id="alpha-output"></span></p>
+  <p>Rotation: <span id="alpha-rotation"></span></p>
+</body>
