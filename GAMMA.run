@@ -1,0 +1,71 @@
+import { BETA_profile } from "./BETA.set/BETA.profile.js";
+import { BETA_gamma } from "./BETA.set/BETA.gamma.js";
+import { BETA_run } from "./BETA.set/BETA.run.js";
+
+export const GAMMA_run = {
+  id: "GAMMA.run",
+  mode: "formula",
+  status: "active",
+
+  run(alpha) {
+    // Schritt 1: ALPHA normieren
+    const normalized = BETA_profile.normalize(alpha);
+
+    // Schritt 2: ALPHA prüfen
+    const check = BETA_gamma.check(normalized);
+
+    // Schritt 3: BETA.run Ergebnis holen
+    const beta = BETA_run.run(alpha);
+
+    // Schritt 4: Formeln erzeugen
+    return {
+      id: "GAMMA.formula",
+      relativity: this.relativity(normalized),
+      geometry: this.geometry(normalized),
+      math: this.math(normalized),
+      iki1uc: this.iki1uc(normalized, beta),
+      ready: beta.ready
+    };
+  },
+
+  // Relativität (Einstein)
+  relativity(alpha) {
+    return {
+      E: `E = m * c^2`,
+      gamma: `γ = 1 / sqrt(1 - (v^2 / c^2))`,
+      time_dilation: `t' = t * γ`,
+      alpha_degree: alpha.degree
+    };
+  },
+
+  // Geometrie
+  geometry(alpha) {
+    return {
+      circle: `A = π * r^2`,
+      sphere: `V = 4/3 * π * r^3`,
+      rotation: alpha.rotation,
+      percent: alpha.percent
+    };
+  },
+
+  // Mathe
+  math(alpha) {
+    return {
+      linear: `f(x) = mx + b`,
+      quadratic: `f(x) = ax^2 + bx + c`,
+      derivative: `d/dx (x^n) = n * x^(n-1)`,
+      alpha_tmp: alpha.tmp
+    };
+  },
+
+  // iki1uc interne Formel
+  iki1uc(alpha, beta) {
+    return {
+      alpha360: alpha.degree === "360°",
+      alpha100: alpha.percent === "100%",
+      beta_code: beta.code,
+      beta_tech: beta.tech,
+      formula: `γ∞ = α∞ * β∞ * (rotation / 360)`
+    };
+  }
+};
