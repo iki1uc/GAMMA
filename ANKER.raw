@@ -1,7 +1,7 @@
-IQ
-QI
-EVO
-UPD
-UPG
-BIOS
-CALC
+export const ANKER = {
+  id: "GAMMA.ANKER",
+  vector: null,
+  degree: "0°",
+  percent: "0%",
+  ready: false
+};
