@@ -1,0 +1,52 @@
+export const TMP = {
+  id: 1,
+  mode: "alpha",
+  status: "active",
+  evolve: true,
+  upgrade: true,
+  update: true,
+
+  detect(entry) {
+    return {
+      entry,
+      axis: this.axis(entry),
+      respo: this.respo(entry),
+      color: this.color(entry),
+      percent: this.percent(entry),
+      degree: this.degree(entry)
+    };
+  },
+
+  axis(entry) {
+    if (entry.includes("markt")) return "Y";
+    if (entry.includes("infra")) return "Z";
+    if (entry.includes("prod")) return "X";
+    if (entry.includes("layer")) return "T";
+    return "O";
+  },
+
+  respo(entry) {
+    if (entry.includes("gewinn")) return "OK";
+    if (entry.includes("verlust")) return "NOK";
+    if (entry.includes("fluss")) return "FLOW";
+    if (entry.includes("stop")) return "BREAK";
+    if (entry.includes("echo")) return "ECHO";
+    if (entry.includes("void")) return "VOID";
+    return "ROOT";
+  },
+
+  color(entry) {
+    const r = this.respo(entry);
+    return r === "OK" || r === "ROOT" ? "green"
+         : r === "FLOW" || r === "ECHO" ? "yellow"
+         : "red";
+  },
+
+  percent(entry) {
+    return entry.includes("gewinn") ? "100%" : "50%";
+  },
+
+  degree(entry) {
+    return entry.includes("rotation") ? "360°" : "180°";
+  }
+};

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SEND · Hyperraum · 12e · Pipeline</title>
+
+<style>
+body { background:#000; color:#0f0; font-family:monospace; }
+nav a { color:#6cf; margin-right:20px; cursor:pointer; font-size:20px; }
+.box { background:#111; padding:20px; margin:20px 0; border-left:3px solid #6cf; display:none; }
+pre { white-space:pre; }
+#geo { width:360px; height:360px; margin:auto; position:relative; border-radius:50%; border:3px solid #0f0; }
+.dot { width:12px; height:12px; background:#0f0; border-radius:50%; position:absolute; }
+</style>
+
+<script src="SEND.core.js"></script>
+<script src="SEND.state.js"></script>
+<script src="SEND.push.js"></script>
+<script src="SEND.pipe.js"></script>
+
+<script src="GEO.js"></script>
+<script src="EFFECT.js"></script>
+
+<script src="QI.js"></script>
+<script src="IQQ.js"></script>
+<script src="OCTA.js"></script>
+<script src="12e.js"></script>
+
+</head>
+
+<body>
+
+<h1>SEND · Hyperraum · 12e · Pipeline</h1>
+
+<nav>
+    <a onclick="show('core')">CORE</a>
+    <a onclick="show('state')">STATE</a>
+    <a onclick="show('push')">PUSH</a>
+    <a onclick="show('pipe')">PIPE</a>
+    <a onclick="show('result')">RESULT</a>
+    <a onclick="show('geoBox')">GEO</a>
+    <a onclick="show('effBox')">Effekte</a>
+    <a onclick="show('pipeline')">Pipeline</a>
+</nav>
+
+<div id="core" class="box"></div>
+<div id="state" class="box"></div>
+<div id="push" class="box"></div>
+<div id="pipe" class="box"></div>
+<div id="result" class="box"></div>
+
+<div id="geoBox" class="box">
+    <h2>GEO</h2>
+    <div id="geo"></div>
+</div>
+
+<div id="effBox" class="box"></div>
+
+<div id="pipeline" class="box"></div>
+
+<script>
+function show(id){
+    document.querySelectorAll('.box').forEach(b => b.style.display = 'none');
+    document.getElementById(id).style.display = 'block';
+}
+
+(async () => {
+
+    document.getElementById("core").innerHTML =
+        "<h2>SEND.core</h2><pre>" + JSON.stringify(SEND_CORE.start(), null, 2) + "</pre>";
+
+    document.getElementById("state").innerHTML =
+        "<h2>SEND.state</h2><pre>" + JSON.stringify(SEND_STATE.detect(99), null, 2) + "</pre>";
+
+    document.getElementById("push").innerHTML =
+        "<h2>SEND.push</h2><pre>" + JSON.stringify(SEND.push(), null, 2) + "</pre>";
+
+    document.getElementById("pipe").innerHTML =
+        "<h2>SEND.pipe</h2><pre>" + JSON.stringify(SEND_PIPE.forward(99), null, 2) + "</pre>";
+
+    const result = await fetch("SEND.result.json").then(r => r.json());
+    document.getElementById("result").innerHTML =
+        "<h2>SEND.result</h2><pre>" + JSON.stringify(result, null, 2) + "</pre>";
+
+    // GEO
+    const geoDots = GEO.circle();
+    const geoDiv = document.getElementById("geo");
+    geoDots.forEach(d => {
+        const dot = document.createElement("div");
+        dot.className = "dot";
+        dot.style.left = d.x+"px";
+        dot.style.top  = d.y+"px";
+        geoDiv.appendChild(dot);
+    });
+
+    // Effekte
+    document.getElementById("effBox").innerHTML =
+        "<h2>Effekte</h2><pre>" + JSON.stringify({
+            pulse: EFFECT.pulse(),
+            wave: EFFECT.wave(),
+            start: EFFECT.start()
+        }, null, 2) + "</pre>";
+
+    // Pipeline
+    document.getElementById("pipeline").innerHTML =
+        "<h2>Pipeline 3/6/9/12</h2><pre>" +
+        JSON.stringify({
+            QI: QI.start(),
+            IQQ: IQQ.start(),
+            OCTA: OCTA.start(),
+            E12: E12.start()
+        }, null, 2) + "</pre>";
+
+    show('core');
+
+})();
+</script>
+
+</body>
+</html>

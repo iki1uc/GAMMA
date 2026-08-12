@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>RUN8 – OCTACORE</title>
+  <style>
+    body { background:#000; color:#0f0; font-family:monospace; }
+    h1, h2 { margin:0.5rem 0; }
+    button { margin:1rem 0; padding:0.5rem 1rem; }
+    pre { border:1px solid #0f0; padding:1rem; margin-bottom:1rem; }
+    a { color:#0ff; text-decoration:none; }
+  </style>
+</head>
+<body>
+
+<h1>RUN8 / OCTACORE</h1>
+<p>OCTACORE‑PIPE: 8 Achsen, SAT, WURMLOCH, NC.link.</p>
+
+<button id="run-north">RUN NORTH</button>
+<button id="run-all">RUN ALL AXES</button>
+
+<h2>Letzter Lauf</h2>
+<pre id="last"></pre>
+
+<h2>Alle Läufe</h2>
+<pre id="all"></pre>
+
+<nav>
+  <h2>Links</h2>
+  <ul>
+    <li><a href="https://iki1uc.github.io/dil.siz.ler" target="_blank">dil.siz.ler</a></li>
+    <li><a href="https://iki1uc.github.io/SEC/index.html" target="_blank">PRIM / SEC</a></li>
+    <li><a href="https://github.com/iki1uc/RUN8" target="_blank">RUN8 Repo</a></li>
+  </ul>
+</nav>
+
+<script type="module">
+  // --- OCTACORE (8 Achsen, passiv)
+  const OCTACORE = {
+    id: "OCTACORE",
+    axes: ["N","S","E","W","UP","DOWN","IN","OUT"],
+    state: "PASSIVE",
+    vector(dir) { return `VECTOR(${dir})`; },
+    run(dir) {
+      return {
+        id: this.id,
+        state: this.state,
+        axis: dir,
+        vector: this.vector(dir)
+      };
+    }
+  };
+
+  // --- SAT (Navigator)
+  const SAT = {
+    id: "SAT",
+    decide(input) {
+      return `WURMLOCH:${input}`;
+    }
+  };
+
+  // --- NC.link (Ziel)
+  const NC_LINK = {
+    id: "NC.link",
+    to(target) {
+      return `NC.link -> ${target}`;
+    }
+  };
+
+  // --- WURMLOCH (Übergang)
+  const WURMLOCH = {
+    id: "WURMLOCH",
+    open(path) {
+      return `OPEN(${path})`;
+    }
+  };
+
+  // --- OCTACORE‑PIPE
+  function OCTACORE_PIPE(direction) {
+    const motor = OCTACORE.run(direction);
+    const sat = SAT.decide(motor.vector);
+    const nc = NC_LINK.to(sat);
+    const worm = WURMLOCH.open(nc);
+
+    return { octacore: motor, sat, nc, worm };
+  }
+
+  const lastEl = document.getElementById("last");
+  const allEl = document.getElementById("all");
+  const runs = [];
+
+  document.getElementById("run-north").addEventListener("click", () => {
+    const block = OCTACORE_PIPE("N");
+    runs.push(block);
+    lastEl.textContent = JSON.stringify(block, null, 2);
+    allEl.textContent = JSON.stringify(runs, null, 2);
+  });
+
+  document.getElementById("run-all").addEventListener("click", () => {
+    OCTACORE.axes.forEach(dir => {
+      const block = OCTACORE_PIPE(dir);
+      runs.push(block);
+    });
+    lastEl.textContent = JSON.stringify(runs[runs.length - 1], null, 2);
+    allEl.textContent = JSON.stringify(runs, null, 2);
+  });
+</script>
+
+</body>
+</html>
+
