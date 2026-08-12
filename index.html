@@ -15,6 +15,35 @@
       load: true,
       output: true
     };
+<script type="module">
+  import { GAMMA_run } from "./GAMMA/GAMMA.run.js";
+
+  const alpha = {
+    degree: "360°",
+    percent: "100%",
+    vec: "VEC-X",
+    tmp: "TMP-A",
+    tech: true,
+    rotation: "FULL",
+    load: true,
+    output: true
+  };
+
+  const result = GAMMA_run.run_full(alpha);
+
+  document.getElementById("vector").innerText = result.all.ANKER.vector;
+  document.getElementById("degree").innerText = result.all.ANKER.degree;
+  document.getElementById("percent").innerText = result.all.ANKER.percent;
+  document.getElementById("ready").innerText = result.all.ANKER.ready;
+
+  document.getElementById("fit_alpha").innerText = result.all.FIT.alpha_fit;
+  document.getElementById("fit_beta").innerText = result.all.FIT.beta_fit;
+  document.getElementById("fit_gamma").innerText = result.all.FIT.gamma_fit;
+
+  document.getElementById("help_alpha").innerText = result.all.HELP.alpha_missing;
+  document.getElementById("help_beta").innerText = result.all.HELP.beta_missing;
+  document.getElementById("help_gamma").innerText = result.all.HELP.gamma_missing;
+</script>
 
     const result = GAMMA_run.run(alpha);
 
