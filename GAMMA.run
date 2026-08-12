@@ -8,16 +8,10 @@ export const GAMMA_run = {
   status: "active",
 
   run(alpha) {
-    // Schritt 1: ALPHA normieren
     const normalized = BETA_profile.normalize(alpha);
-
-    // Schritt 2: ALPHA prüfen
     const check = BETA_gamma.check(normalized);
-
-    // Schritt 3: BETA.run Ergebnis holen
     const beta = BETA_run.run(alpha);
 
-    // Schritt 4: Formeln erzeugen
     return {
       id: "GAMMA.formula",
       relativity: this.relativity(normalized),
@@ -34,6 +28,8 @@ export const GAMMA_run = {
       E: `E = m * c^2`,
       gamma: `γ = 1 / sqrt(1 - (v^2 / c^2))`,
       time_dilation: `t' = t * γ`,
+      length_contraction: `L' = L * sqrt(1 - (v^2 / c^2))`,
+      relativistic_mass: `m' = γ * m`,
       alpha_degree: alpha.degree
     };
   },
@@ -43,6 +39,8 @@ export const GAMMA_run = {
     return {
       circle: `A = π * r^2`,
       sphere: `V = 4/3 * π * r^3`,
+      triangle: `A = 1/2 * b * h`,
+      cube: `V = a^3`,
       rotation: alpha.rotation,
       percent: alpha.percent
     };
@@ -54,6 +52,7 @@ export const GAMMA_run = {
       linear: `f(x) = mx + b`,
       quadratic: `f(x) = ax^2 + bx + c`,
       derivative: `d/dx (x^n) = n * x^(n-1)`,
+      integral: `∫ x^n dx = x^(n+1)/(n+1) + C`,
       alpha_tmp: alpha.tmp
     };
   },
@@ -65,7 +64,8 @@ export const GAMMA_run = {
       alpha100: alpha.percent === "100%",
       beta_code: beta.code,
       beta_tech: beta.tech,
-      formula: `γ∞ = α∞ * β∞ * (rotation / 360)`
-    };
-  }
-};
+
+      mass_alpha: parseInt(alpha.degree) / 360,
+      mass_beta: beta.code === "OK" ? 1 : 0,
+      mass_rotation: alpha.rotation === "FULL" ? 1 : 0,
+
