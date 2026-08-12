@@ -1,2 +1,4 @@
-{ "vector": "+Z", "dir": "up", "dim": 6 }
-
+export const UP = {
+  updated: false,
+  last_update: null
+};
