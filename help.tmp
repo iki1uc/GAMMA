@@ -1,2 +1,5 @@
-{ "help": true, "level": "assist", "fix": true }
-
+export const HELP = {
+  alpha_missing: [],
+  beta_missing: [],
+  gamma_missing: []
+};
