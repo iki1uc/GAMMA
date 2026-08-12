@@ -8,26 +8,21 @@ export const GAMMA_run = {
   status: "active",
 
   run(alpha) {
-    // 1. ALPHA normieren
     const normalized = BETA_profile.normalize(alpha);
-
-    // 2. ALPHA prüfen
     const check = BETA_gamma.check(normalized);
-
-    // 3. BETA.run ausführen
     const beta = BETA_run.run(alpha);
 
-    // 4. Axiome prüfen
     const axiom = this.axioms(normalized, beta);
-
-    // 5. Formeln erzeugen
     const formulas = this.formulas(normalized, beta);
+    const wette = this.wette(normalized, beta);
+    const slide = this.slide(normalized);
 
-    // 6. Ergebnis zurückgeben
     return {
       id: "GAMMA.result",
       axiom,
       formulas,
+      wette,
+      slide,
       ready: beta.ready
     };
   },
@@ -39,6 +34,24 @@ export const GAMMA_run = {
       geometry_axiom: alpha.percent === "100%" ? "OK" : "NOT_OK",
       beta_axiom: beta.code === "OK" ? "OK" : "NOT_OK",
       vector_axiom: alpha.vec ? "OK" : "NOT_OK"
+    };
+  },
+
+  wette(alpha, beta) {
+    return {
+      degree_match: alpha.degree === beta.degree,
+      percent_match: alpha.percent === beta.percent,
+      tech_match: alpha.tech === (beta.tech === "OK"),
+      vec_match: alpha.vec ? "OK" : "NOT_OK",
+      tmp_match: alpha.tmp ? "OK" : "NOT_OK"
+    };
+  },
+
+  slide(alpha) {
+    return {
+      slide_degree: parseInt(alpha.degree) / 360,
+      slide_percent: parseInt(alpha.percent) / 100,
+      slide_rotation: alpha.rotation === "FULL" ? 1 : 0
     };
   },
 
